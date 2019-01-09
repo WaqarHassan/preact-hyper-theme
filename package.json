@@ -31,10 +31,15 @@
     "sass-loader": "^7.1.0"
   },
   "dependencies": {
+    "axios": "^0.18.0",
+    "jwt-decode": "^2.2.0",
     "preact": "^8.2.6",
     "preact-compat": "^3.17.0",
+    "preact-redux": "^2.0.3",
     "preact-router": "^2.5.7",
-    "react-table": "^6.8.6"
+    "react-table": "^6.8.6",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0"
   },
   "jest": {
     "verbose": true,

@@ -9,6 +9,9 @@ import Home from "../routes/home";
 import Profile from "../routes/profile";
 import Order from "../routes/order";
 import Login from "../routes/Login";
+import { Provider } from "preact-redux";
+import store from "../store";
+
 export default class App extends Component {
   /** Gets fired when the route changes.
    *	@param {Object} event		"change" event from [preact-router](http://git.io/preact-router)
@@ -20,17 +23,19 @@ export default class App extends Component {
 
   render() {
     return (
-      <div id="app">
-        {/* <Header /> */}
-        {/* <div default> Sorry! This page does not exists</div> */}
+      <Provider store={store}>
+        <div id="app">
+          {/* <Header /> */}
+          {/* <div default> Sorry! This page does not exists</div> */}
 
-        <Router onChange={this.handleRoute}>
-          <Home path="/" />
-          <Login path="/login" />
-          <Order path="/admin/orders" />
-        </Router>
-        <Footer />
-      </div>
+          <Router onChange={this.handleRoute}>
+            <Home path="/" />
+            <Login path="/login" />
+            <Order path="/admin/orders" />
+          </Router>
+          <Footer />
+        </div>
+      </Provider>
     );
   }
 }

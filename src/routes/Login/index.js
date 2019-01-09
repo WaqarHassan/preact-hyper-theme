@@ -1,10 +1,37 @@
 import { h, Component } from "preact";
 // import { Link } from "preact-router/match";
 import style from "./style";
+import { loginUser } from "../../actions/authActions";
+import { connect } from "preact-redux";
 
-export default class Login extends Component {
-  componentDidMount() {
+class Login extends Component {
+  constructor() {
+    super();
+    this.state = {
+      email: "",
+      password: ""
+    };
+    this.onChange = this.onChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  onSubmit(e) {
+    e.preventDefault();
+    const loginData = {
+      email: this.state.email,
+      password: this.state.password
+    };
     debugger;
+
+    this.props.loginUser(loginData);
+  }
+  onChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.auth.isAuthenticated) {
+      tthis.props.history.push("/admin/orders");
+    }
   }
 
   render() {
@@ -34,14 +61,17 @@ export default class Login extends Component {
                       </p>
                     </div>
 
-                    <form action="#">
+                    <form action="#" onSubmit={this.onSubmit}>
                       <div class="form-group">
                         <label for="emailaddress">Email address</label>
                         <input
                           class="form-control"
                           type="email"
                           id="emailaddress"
-                          required=""
+                          required="true"
+                          name="email"
+                          value={this.state.email}
+                          onChange={this.onChange}
                           placeholder="Enter your email"
                         />
                       </div>
@@ -57,7 +87,10 @@ export default class Login extends Component {
                         <input
                           class="form-control"
                           type="password"
-                          required=""
+                          required="true"
+                          name="password"
+                          value={this.state.password}
+                          onChange={this.onChange}
                           id="password"
                           placeholder="Enter your password"
                         />
@@ -111,5 +144,11 @@ export default class Login extends Component {
     );
   }
 }
+
+const mapStateToProps = state => state;
+export default connect(
+  mapStateToProps,
+  { loginUser }
+)(Login);
 
 // export default Login;
