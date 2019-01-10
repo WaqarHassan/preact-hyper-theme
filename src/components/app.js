@@ -13,6 +13,9 @@ import store from "../store";
 import { setCurrentUser } from "../actions/authActions";
 import setAuthToken from "../utils/setAuthToken";
 import "../style";
+import AdminRoute from "../components/common/AdminRoute";
+import order from "../routes/order";
+
 if (localStorage.jwtToken) {
   // set Auth token header auth
   setAuthToken(localStorage.jwtToken);
@@ -49,11 +52,12 @@ export default class App extends Component {
           <Header />
           {/* <div default> Sorry! This page does not exists</div> */}
 
-          <Router onChange={this.handleRoute}>
+          <Router>
             <Home path="/" />
             <Login path="/login" />
-            <Order path="/admin/orders" />
+            <AdminRoute path="/admin/orders" component={order} />
           </Router>
+
           <Footer />
         </div>
       </Provider>

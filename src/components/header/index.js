@@ -1,10 +1,22 @@
 import { h, Component } from "preact";
 import { Link } from "preact-router/match";
 import style from "./style";
-
-export default class Header extends Component {
+import { logoutUser } from "../../actions/authActions";
+import { connect } from "preact-redux";
+class Header extends Component {
+  constructor() {
+    super();
+    this.state = {
+      rightMenuOpen: false
+    };
+  }
   componentDidMount() {}
-
+  onClickRightMenu(e) {
+    this.setState({ rightMenuOpen: !this.state.rightMenuOpen });
+  }
+  logoutUser() {
+    this.props.logoutUser();
+  }
   render() {
     return (
       // <header class={style.header}>
@@ -74,7 +86,7 @@ export default class Header extends Component {
                       src="../assets/images/avatar-2.jpg"
                       class="img-fluid rounded-circle"
                       alt=""
-                    />{" "}
+                    />
                   </div>
                   <p class="notify-details">Cristina Pride</p>
                   <p class="text-muted mb-0 user-msg">
@@ -129,11 +141,16 @@ export default class Header extends Component {
             </div>
           </li>
 
-          <li class="dropdown notification-list">
+          <li
+            class={`dropdown notification-list ${
+              this.state.rightMenuOpen ? "show" : ""
+            } kkk`}
+          >
             <a
               class="nav-link dropdown-toggle nav-user arrow-none mr-0"
               data-toggle="dropdown"
               href="#"
+              onClick={this.onClickRightMenu.bind(this)}
               role="button"
               aria-haspopup="false"
               aria-expanded="false"
@@ -175,7 +192,11 @@ export default class Header extends Component {
                 <span>Lock Screen</span>
               </a>
 
-              <a href="javascript:void(0);" class="dropdown-item notify-item">
+              <a
+                href=""
+                class="dropdown-item notify-item"
+                onClick={this.logoutUser.bind(this)}
+              >
                 <i class="mdi mdi-logout" />
                 <span>Logout</span>
               </a>
@@ -202,5 +223,10 @@ export default class Header extends Component {
     );
   }
 }
+
+export default connect(
+  state => ({}),
+  { logoutUser }
+)(Header);
 
 // export default Header;
