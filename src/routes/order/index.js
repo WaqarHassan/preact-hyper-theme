@@ -2,10 +2,18 @@ import { h, Component } from "preact";
 import style from "./style.scss";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
+import { getOrders } from "../../actions/orderActions";
+import { connect } from "preact-redux";
+class Order extends Component {
+  componentDidMount() {
+    // this.props.getOrders();
+  }
 
-export default class Order extends Component {
-  componentDidMount() {}
-
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.orders) {
+      debugger;
+    }
+  }
   render() {
     const data = [
       {
@@ -49,3 +57,12 @@ export default class Order extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  orders: state.ordersData.orders
+});
+
+export default connect(
+  mapStateToProps,
+  { getOrders }
+)(Order);

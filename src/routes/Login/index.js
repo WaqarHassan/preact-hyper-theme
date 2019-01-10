@@ -3,10 +3,11 @@ import { h, Component } from "preact";
 import style from "./style";
 import { loginUser } from "../../actions/authActions";
 import { connect } from "preact-redux";
+import { route } from "preact-router";
 
 class Login extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       email: "",
       password: ""
@@ -21,7 +22,6 @@ class Login extends Component {
       email: this.state.email,
       password: this.state.password
     };
-    debugger;
 
     this.props.loginUser(loginData);
   }
@@ -30,7 +30,7 @@ class Login extends Component {
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated) {
-      tthis.props.history.push("/admin/orders");
+      route("/admin/orders");
     }
   }
 
@@ -145,7 +145,9 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = state => state;
+const mapStateToProps = state => ({
+  auth: state.auth
+});
 export default connect(
   mapStateToProps,
   { loginUser }

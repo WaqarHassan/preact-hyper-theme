@@ -11,7 +11,6 @@ export const loginUser = payload => dispatch => {
       payload
     )
     .then(res => {
-      debugger;
       const { token } = res.data.data;
       localStorage.setItem("jwtToken", token);
       setAuthToken(token);
@@ -19,10 +18,9 @@ export const loginUser = payload => dispatch => {
       dispatch(setCurrentUser(token));
     })
     .catch(err => {
-      debugger;
       dispatch({
         type: GET_ERRORS,
-        payload: err.response.data
+        payload: err.response
       });
     });
 };

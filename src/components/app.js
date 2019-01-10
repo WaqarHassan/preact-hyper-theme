@@ -11,6 +11,28 @@ import Order from "../routes/order";
 import Login from "../routes/Login";
 import { Provider } from "preact-redux";
 import store from "../store";
+import { setCurrentUser } from "../actions/authActions";
+import setAuthToken from "../utils/setAuthToken";
+
+if (localStorage.jwtToken) {
+  // set Auth token header auth
+  setAuthToken(localStorage.jwtToken);
+  // Decode token and get user info exp
+  // const decode = jwt_decode(localStorage.jwtToken);
+  // Set User and isAuthenticated
+  store.dispatch(setCurrentUser(localStorage.jwtToken));
+
+  // check for expired token
+  // const currentTime = Date.now() / 1000;
+  // if (decode.exp < currentTime) {
+  //   // logout the user
+  //   store.dispatch(logoutUser());
+  //   // TODO: clear current Profile
+
+  //   // Redirect to login
+  //   window.location.href = "/login";
+  // }
+}
 
 export default class App extends Component {
   /** Gets fired when the route changes.
