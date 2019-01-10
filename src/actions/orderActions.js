@@ -10,7 +10,7 @@ export const getOrders = () => dispatch => {
     .then(res => {
       dispatch({
         type: GET_ORDERS,
-        payload: res
+        payload: res.data
       });
     })
     .catch(err => {

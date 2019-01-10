@@ -6,14 +6,13 @@ import Header from "./header";
 import Footer from "./Footer";
 // Code-splitting is automated for routes
 import Home from "../routes/home";
-import Profile from "../routes/profile";
 import Order from "../routes/order";
 import Login from "../routes/Login";
 import { Provider } from "preact-redux";
 import store from "../store";
 import { setCurrentUser } from "../actions/authActions";
 import setAuthToken from "../utils/setAuthToken";
-
+import "../style";
 if (localStorage.jwtToken) {
   // set Auth token header auth
   setAuthToken(localStorage.jwtToken);
@@ -47,7 +46,7 @@ export default class App extends Component {
     return (
       <Provider store={store}>
         <div id="app">
-          {/* <Header /> */}
+          <Header />
           {/* <div default> Sorry! This page does not exists</div> */}
 
           <Router onChange={this.handleRoute}>

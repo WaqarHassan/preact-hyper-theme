@@ -16,6 +16,11 @@ class Login extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated) {
+      route("/admin/orders");
+    }
+  }
   onSubmit(e) {
     e.preventDefault();
     const loginData = {
