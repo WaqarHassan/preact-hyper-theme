@@ -13,9 +13,6 @@ import store from "../store";
 import { setCurrentUser } from "../actions/authActions";
 import setAuthToken from "../utils/setAuthToken";
 import "../style";
-import AdminRoute from "../components/common/AdminRoute";
-import order from "../routes/order";
-
 if (localStorage.jwtToken) {
   // set Auth token header auth
   setAuthToken(localStorage.jwtToken);
@@ -39,10 +36,19 @@ if (localStorage.jwtToken) {
 export default class App extends Component {
   /** Gets fired when the route changes.
    *	@param {Object} event		"change" event from [preact-router](http://git.io/preact-router)
+  
    *	@param {string} event.url	The newly routed URL
    */
+
   handleRoute = e => {
-    this.currentUrl = e.url;
+    // if (e.url.startsWith("/admin")) {
+    //   const isAuth = await localStorage.jwtToken;
+    //   if (!isAuth) {
+    //     route("/", true);
+    //     return;
+    //   }
+    //   this.currentUrl = e.url;
+    // }
   };
 
   render() {
@@ -52,12 +58,11 @@ export default class App extends Component {
           <Header />
           {/* <div default> Sorry! This page does not exists</div> */}
 
-          <Router>
+          <Router onChange={this.handleRoute}>
             <Home path="/" />
             <Login path="/login" />
-            <AdminRoute path="/admin/orders" component={order} />
+            <Order path="/admin/orders" />
           </Router>
-
           <Footer />
         </div>
       </Provider>

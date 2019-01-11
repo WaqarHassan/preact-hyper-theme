@@ -1,4 +1,6 @@
 // import React from "preact";
+import { h, Component } from "preact";
+
 import { Route, route } from "preact-router";
 import { connect } from "preact-redux";
 

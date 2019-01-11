@@ -1,0 +1,58 @@
+<!-- This file is overwritten from node_modules/preact-cli/lib/resources/template.html -->
+<!-- Follow this url for reference https://github.com/developit/preact-cli/issues/51#issuecomment-350592638 -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link
+      rel="manifest"
+      href="<%= htmlWebpackPlugin.files.publicPath %>manifest.json"
+    />
+    <% if (htmlWebpackPlugin.options.manifest.theme_color) { %>
+    <meta
+      name="theme-color"
+      content="<%= htmlWebpackPlugin.options.manifest.theme_color %>"
+    />
+    <% } %> <% for (var chunk of webpack.chunks) { %> <% if (chunk.names.length
+    === 1 && chunk.names[0] === 'polyfills') continue; %> <% for (var file of
+    chunk.files) { %> <% if (htmlWebpackPlugin.options.preload &&
+    file.match(/\.(js|css)$/)) { %>
+    <link
+      rel="preload"
+      href="<%= htmlWebpackPlugin.files.publicPath + file %>"
+      as="<%= file.match(/\.css$/)?'style':'script' %>"
+    />
+    <% } else if (file.match(/manifest\.json$/)) { %>
+    <link
+      rel="manifest"
+      href="<%= htmlWebpackPlugin.files.publicPath + file %>"
+    />
+    <% } %> <% } %> <% } %>
+
+    <!--  following specified base urls for all the link tag documents https://github.com/froala/angular-froala/issues/170#issuecomment-386117678 -->
+    <base href="/" />
+
+    <link rel="stylesheet" type="text/css" href="./assets/css/app.min.css" />
+    <link rel="stylesheet" type="text/css" href="./assets/css/icons.min.css" />
+  </head>
+  <body>
+    <script defer src="./assets/js/app.min.js"></script>
+
+    <%= htmlWebpackPlugin.options.ssr({ url: '/' }) %>
+    <script
+      defer
+      src="<%= htmlWebpackPlugin.files.chunks['bundle'].entry %>"
+    ></script>
+    <script>
+      window.fetch ||
+        document.write(
+          '<script src="<%= htmlWebpackPlugin.files.chunks["polyfills"].entry %>"><\/script>'
+        );
+    </script>
+  </body>
+</html>

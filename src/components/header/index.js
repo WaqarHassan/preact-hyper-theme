@@ -3,21 +3,44 @@ import { Link } from "preact-router/match";
 import style from "./style";
 import { logoutUser } from "../../actions/authActions";
 import { connect } from "preact-redux";
+import { route } from "preact-router";
 class Header extends Component {
   constructor() {
     super();
     this.state = {
-      rightMenuOpen: false
+      // rightMenuOpen: false
     };
   }
   componentDidMount() {}
-  onClickRightMenu(e) {
-    this.setState({ rightMenuOpen: !this.state.rightMenuOpen });
-  }
+  // onClickRightMenu(e) {
+  //   this.setState({ rightMenuOpen: !this.state.rightMenuOpen });
+  // }
   logoutUser() {
     this.props.logoutUser();
   }
+  // componentWillReceiveProps(nextProps) {
+  //   if (!nextProps.auth.isAuthenticated) {
+  //     // route("/");
+  //   }
+  // }
   render() {
+    const { auth } = this.props;
+    const userLinks = (
+      <a
+        href=""
+        class="dropdown-item notify-item"
+        onClick={this.logoutUser.bind(this)}
+      >
+        <i class="mdi mdi-logout" />
+        <span>Logout</span>
+      </a>
+    );
+    const guestLinks = (
+      <a href="/login" class="dropdown-item notify-item">
+        <i class="mdi mdi-logout" />
+        <span>Login</span>
+      </a>
+    );
     return (
       // <header class={style.header}>
       //   <h1>Preact App</h1>
@@ -150,7 +173,7 @@ class Header extends Component {
               class="nav-link dropdown-toggle nav-user arrow-none mr-0"
               data-toggle="dropdown"
               href="#"
-              onClick={this.onClickRightMenu.bind(this)}
+              // onClick={this.onClickRightMenu.bind(this)}
               role="button"
               aria-haspopup="false"
               aria-expanded="false"
@@ -191,15 +214,7 @@ class Header extends Component {
                 <i class="mdi mdi-lock-outline" />
                 <span>Lock Screen</span>
               </a>
-
-              <a
-                href=""
-                class="dropdown-item notify-item"
-                onClick={this.logoutUser.bind(this)}
-              >
-                <i class="mdi mdi-logout" />
-                <span>Logout</span>
-              </a>
+              {auth.isAuthenticated ? userLinks : guestLinks}
             </div>
           </li>
         </ul>
@@ -225,7 +240,9 @@ class Header extends Component {
 }
 
 export default connect(
-  state => ({}),
+  state => ({
+    auth: state.auth
+  }),
   { logoutUser }
 )(Header);
 
